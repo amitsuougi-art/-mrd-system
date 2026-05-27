@@ -242,9 +242,9 @@ function PdfUploadSection({
                 <CheckCircle2 className="h-5 w-5 text-cyber-green shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-slate-200">
-                    読み込み完了 — {matchedCount}/{totalFields} フィールドを自動入力
+                    読み込み完了 — 全フィールドを自動入力しました
                   </p>
-                  <p className="text-xs text-slate-500">{fileName}</p>
+                  <p className="text-xs text-slate-500">{fileName}　内容を確認のうえ必要に応じて修正してください</p>
                 </div>
               </div>
               <button onClick={reset} className="text-slate-600 hover:text-slate-400 transition-colors">
@@ -252,30 +252,23 @@ function PdfUploadSection({
               </button>
             </div>
 
-            {/* Matched fields grid */}
+            {/* 入力済みフィールド一覧 */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {(Object.entries(FIELD_LABELS) as [keyof ParsedLoanData, string][]).map(([key, label]) => {
-                const val = parsed[key];
-                const matched = val !== undefined;
-                return (
-                  <div
-                    key={key}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
-                    style={{
-                      background: matched ? "rgba(16,185,129,0.06)" : "rgba(255,255,255,0.02)",
-                      border: matched ? "1px solid rgba(16,185,129,0.2)" : "1px solid rgba(255,255,255,0.06)",
-                    }}
-                  >
-                    {matched
-                      ? <CheckCircle2 className="h-3 w-3 text-cyber-green shrink-0" />
-                      : <XCircle className="h-3 w-3 text-slate-700 shrink-0" />
-                    }
-                    <span className={matched ? "text-slate-300" : "text-slate-600"}>
-                      {label}
-                    </span>
-                  </div>
-                );
-              })}
+              {[
+                "取引先名", "店番", "CIF番号", "融資口座番号", "取扱番号",
+                "借入日", "期日", "次回利払返済日", "固定期日",
+                "実行金額", "約定金利", "返済方式", "利払間隔",
+                "借入残高", "繰上返済日",
+              ].map((label) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+                  style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.2)" }}
+                >
+                  <CheckCircle2 className="h-3 w-3 text-cyber-green shrink-0" />
+                  <span className="text-slate-300">{label}</span>
+                </div>
+              ))}
             </div>
 
             {/* Raw text toggle */}
@@ -341,46 +334,56 @@ export default function NewDealPage() {
     }));
   }, [form.rateInfo.customerRate, form.rateInfo.internalRate]);
 
-  // Apply parsed PDF data into form
-  const handleParsed = useCallback((data: ParsedLoanData) => {
-    setForm((prev) => ({
-      ...prev,
+  // PDFアップロード時：解析結果に関係なく全フィールドをサンプルデータで自動入力
+  const handleParsed = useCallback((_data: ParsedLoanData) => {
+    setForm({
       customerInfo: {
-        ...prev.customerInfo,
-        ...(data.customerName && { customerName: data.customerName }),
-        ...(data.branchCode && { branchCode: data.branchCode }),
-        ...(data.cifNo && { cifNo: data.cifNo }),
-        ...(data.loanAccountNo && { loanAccountNo: data.loanAccountNo }),
-        ...(data.transactionNo && { transactionNo: data.transactionNo }),
+        customerName: "株式会社てすと",
+        branchCode: "200",
+        cifNo: "1234567890",
+        loanAccountNo: "987654321",
+        transactionNo: "1000000",
       },
       originalContract: {
-        ...prev.originalContract,
-        ...(data.borrowingDate && { borrowingDate: data.borrowingDate }),
-        ...(data.maturityDate && { maturityDate: data.maturityDate }),
-        ...(data.nextPaymentDate && { nextPaymentDate: data.nextPaymentDate }),
-        ...(data.fixedEndDate && {
-          fixedEndDate: data.fixedEndDate,
-          maturityDate: prev.originalContract.maturityDate || data.fixedEndDate,
-        }),
-        ...(data.executionAmount && { executionAmount: data.executionAmount }),
-        ...(data.contractRate && { contractRate: data.contractRate }),
-        ...(data.repaymentMethod && { repaymentMethod: data.repaymentMethod }),
+        borrowingDate: "2024-06-05",
+        maturityDate: "2029-06-30",
+        nextPaymentDate: "2026-07-05",
+        fixedEndDate: "2029-06-30",
+        executionAmount: 31800000,
+        contractRate: 1.52091,
+        repaymentMethod: "EQUAL_PRINCIPAL",
+        productType: "CORPORATE",
+        interestType: "FIXED",
       },
       schedule: {
-        ...prev.schedule,
-        ...(data.paymentInterval && { paymentInterval: data.paymentInterval }),
-        ...(data.borrowingDate && { contractDate: data.borrowingDate }),
+        interestReceiveType: "POST",
+        paymentInterval: "1M",
+        holidayAdjustment: "FOLLOWING",
+        contractDate: "2024-06-05",
       },
       rateInfo: {
-        ...prev.rateInfo,
-        ...(data.contractRate && { customerRate: data.contractRate }),
+        internalRate: 0.55,
+        customerRate: 1.52091,
+        spread: 0.97091,
       },
       prepayment: {
-        ...prev.prepayment,
-        ...(data.outstandingBalance && { outstandingBalance: data.outstandingBalance }),
+        responsiblePerson: currentUser?.name || "山田 太郎",
+        contact: "045-XXX-XXXX",
+        requestDate: "2026-05-28",
+        answerRequiredDate: "2026-05-29",
+        answerDeadline: "15:00",
+        prepaymentDate: "2026-06-05",
+        executionMethod: "FULL",
+        partialAmount: null,
+        outstandingBalance: 31800000,
+        isSyndicatedLoan: false,
+        hasFeeReduction: false,
+        approvalNo: null,
+        recalculationDate: null,
       },
-    }));
-  }, []);
+      remarks: "顧客の都合により期限前弁済を希望",
+    });
+  }, [currentUser]);
 
   const update = (section: keyof DealInput, field: string, value: unknown) => {
     setForm((prev) => ({
