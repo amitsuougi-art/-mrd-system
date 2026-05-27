@@ -1,17 +1,22 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store";
 import { StatusBadge } from "@/components/deals/status-badge";
 import { formatDateTime } from "@/lib/format";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { PlusCircle, Search } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
+
+// IDs pre-generated as static pages
+const STATIC_DEAL_IDS = new Set(["deal-001", "deal-002", "deal-003", "deal-004", "deal-005"]);
 
 export default function BranchDealsPage() {
-  const { deals } = useAppStore();
+  const router = useRouter();
+  const { deals, setActiveDealId } = useAppStore();
   const [search, setSearch] = useState("");
 
   const filtered = deals.filter(
@@ -20,6 +25,15 @@ export default function BranchDealsPage() {
       d.input.customerInfo.customerName.includes(search) ||
       search === ""
   );
+
+  const navigateToDeal = (dealId: string) => {
+    if (STATIC_DEAL_IDS.has(dealId)) {
+      router.push(`/branch/deals/${dealId}/result`);
+    } else {
+      setActiveDealId(dealId);
+      router.push("/branch/deals/result");
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -82,9 +96,13 @@ export default function BranchDealsPage() {
                     </td>
                     <td className="px-4 py-3 text-slate-500 text-xs">{formatDateTime(deal.createdAt)}</td>
                     <td className="px-4 py-3">
-                      <Link href={`/branch/deals/${deal.dealId}/result`}>
-                        <Button size="sm" variant="outline">詳細</Button>
-                      </Link>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => navigateToDeal(deal.dealId)}
+                      >
+                        詳細
+                      </Button>
                     </td>
                   </tr>
                 ))}

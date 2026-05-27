@@ -13,9 +13,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+const STATIC_DEAL_IDS = new Set(["deal-001", "deal-002", "deal-003", "deal-004", "deal-005"]);
+
 export default function BranchDashboardPage() {
   const router = useRouter();
-  const { deals, currentUser } = useAppStore();
+  const { deals, currentUser, setActiveDealId } = useAppStore();
+
+  const navigateToDeal = (dealId: string, subPath = "result") => {
+    if (STATIC_DEAL_IDS.has(dealId)) {
+      router.push(`/branch/deals/${dealId}/${subPath}`);
+    } else {
+      setActiveDealId(dealId);
+      router.push("/branch/deals/result");
+    }
+  };
 
   const processingDeals = deals.filter((d) =>
     ["OCR_PENDING", "CALCULATING", "REVIEW_PENDING", "APPROVAL_PENDING", "SUBMITTED_BY_BRANCH"].includes(d.status)
@@ -150,17 +161,17 @@ export default function BranchDashboardPage() {
                     <td className="px-4 py-3 text-slate-500 text-xs">{formatDateTime(deal.updatedAt)}</td>
                     <td className="px-4 py-3">
                       {deal.status === "CALCULATED" || deal.status === "APPROVED" ? (
-                        <Link href={`/branch/deals/${deal.dealId}/result`}>
-                          <Button size="sm" variant="outline">結果確認</Button>
-                        </Link>
+                        <Button size="sm" variant="outline" onClick={() => navigateToDeal(deal.dealId, "result")}>
+                          結果確認
+                        </Button>
                       ) : deal.status === "OCR_PENDING" ? (
-                        <Link href={`/branch/deals/${deal.dealId}/ocr`}>
-                          <Button size="sm" variant="outline">OCR確認</Button>
-                        </Link>
+                        <Button size="sm" variant="outline" onClick={() => navigateToDeal(deal.dealId, "ocr")}>
+                          OCR確認
+                        </Button>
                       ) : (
-                        <Link href={`/branch/deals/${deal.dealId}/result`}>
-                          <Button size="sm" variant="ghost">詳細</Button>
-                        </Link>
+                        <Button size="sm" variant="ghost" onClick={() => navigateToDeal(deal.dealId, "result")}>
+                          詳細
+                        </Button>
                       )}
                     </td>
                   </tr>

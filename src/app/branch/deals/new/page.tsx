@@ -75,7 +75,7 @@ function generateDealNo(branchCode: string): string {
 
 export default function NewDealPage() {
   const router = useRouter();
-  const { addDeal, updateDeal, currentUser } = useAppStore();
+  const { addDeal, updateDeal, currentUser, setActiveDealId } = useAppStore();
   const [form, setForm] = useState<DealInput>({
     ...defaultValues,
     prepayment: {
@@ -170,8 +170,10 @@ export default function NewDealPage() {
     await new Promise((r) => setTimeout(r, 1500));
     const result = calculatePrepaymentFee(form);
     updateDeal(dealId, (d) => ({ ...d, status: "CALCULATED", result, updatedAt: new Date().toISOString() }));
+    setActiveDealId(dealId);
     setIsCalculating(false);
-    router.push(`/branch/deals/${dealId}/result`);
+    // Navigate to fixed static route (dynamic routes 404 in static export for unknown IDs)
+    router.push("/branch/deals/result");
   };
 
   return (
