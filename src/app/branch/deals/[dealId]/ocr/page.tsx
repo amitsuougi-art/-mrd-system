@@ -69,7 +69,7 @@ export default function OcrPage({ params }: PageProps) {
       updatedAt: new Date().toISOString(),
     }));
     setIsCalculating(false);
-    router.push(`/mrd-system/branch/deals/${deal.dealId}/result`);
+    router.push(`/branch/deals/${deal.dealId}/result`);
   };
 
   // Sort: differences first
@@ -78,7 +78,7 @@ export default function OcrPage({ params }: PageProps) {
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex items-center gap-4">
-        <Link href={`/mrd-system/branch/deals/new`}>
+        <Link href={`/branch/deals/new`}>
           <Button variant="ghost" size="sm"><ArrowLeft className="h-4 w-4 mr-1" />戻る</Button>
         </Link>
         <div>
@@ -195,7 +195,7 @@ export default function OcrPage({ params }: PageProps) {
 
       {/* Actions */}
       <div className="flex justify-end gap-3 pb-8">
-        <Link href={`/mrd-system/branch/deals/new`}>
+        <Link href={`/branch/deals/new`}>
           <Button variant="outline">フォームへ戻る</Button>
         </Link>
         <Button onClick={handleCalculate} disabled={isCalculating} className="min-w-40">

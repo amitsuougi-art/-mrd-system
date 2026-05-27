@@ -16,16 +16,16 @@ export function Header({ title }: { title?: string }) {
     if (user) {
       setCurrentUser(user);
       if (user.role === "BRANCH_STAFF" || user.role === "BRANCH_MGR") {
-        router.push("/mrd-system/branch/dashboard");
+        router.push("/branch/dashboard");
       } else {
-        router.push("/mrd-system/headquarters/dashboard");
+        router.push("/headquarters/dashboard");
       }
     }
     setDropdownOpen(false);
   };
 
   const handleLogout = () => {
-    router.push("/mrd-system/");
+    router.push("/");
     setDropdownOpen(false);
   };
 
@@ -40,13 +40,11 @@ export function Header({ title }: { title?: string }) {
       {title && <span className="text-sm opacity-80 hidden md:block">{title}</span>}
       <div className="flex-1" />
 
-      {/* Notifications */}
       <button className="relative p-2 hover:bg-bank-primary-light rounded-md">
         <Bell className="h-5 w-5" />
         <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-red-500 text-[10px] flex items-center justify-center">3</span>
       </button>
 
-      {/* User Menu */}
       <div className="relative">
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}

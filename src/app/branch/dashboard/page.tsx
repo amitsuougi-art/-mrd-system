@@ -36,11 +36,6 @@ export default function BranchDashboardPage() {
     new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
   ).slice(0, 5);
 
-  const showToast = (message: string) => {
-    // Simple toast simulation
-    alert(message);
-  };
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Page Title */}
@@ -54,7 +49,7 @@ export default function BranchDashboardPage() {
         <SummaryCard
           title="処理中案件"
           value={processingDeals.length}
-          subtitle="OCR待ち・計算中・本部点検中"
+          subtitle="OCR処理中・計算中・本部点検中"
           icon={Loader2}
         />
         <SummaryCard
@@ -81,7 +76,7 @@ export default function BranchDashboardPage() {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Link href="/mrd-system/branch/deals/new">
+        <Link href="/branch/deals/new">
           <Card className="cursor-pointer hover:shadow-md transition-shadow bg-bank-primary text-white border-0">
             <CardContent className="p-6 flex items-center justify-between">
               <div>
@@ -105,9 +100,9 @@ export default function BranchDashboardPage() {
               <div>
                 <div className="flex items-center gap-2 mb-2 text-bank-primary">
                   <FileText className="h-5 w-5" />
-                  <span className="font-semibold text-lg">仕切レート 新規依頼</span>
+                  <span className="font-semibold text-lg">仕切レート新規依頼</span>
                 </div>
-                <p className="text-sm text-gray-500">融資仕切レートを取得する</p>
+                <p className="text-sm text-gray-500">融資の仕切レートを取得する</p>
               </div>
               <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-500">準備中</span>
             </CardContent>
@@ -120,7 +115,7 @@ export default function BranchDashboardPage() {
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base font-semibold">最近の案件</CardTitle>
-            <Link href="/mrd-system/branch/deals">
+            <Link href="/branch/deals">
               <Button variant="ghost" size="sm">すべて見る →</Button>
             </Link>
           </div>
@@ -152,15 +147,15 @@ export default function BranchDashboardPage() {
                     <td className="px-4 py-3 text-gray-500 text-xs">{formatDateTime(deal.updatedAt)}</td>
                     <td className="px-4 py-3">
                       {deal.status === "CALCULATED" || deal.status === "APPROVED" ? (
-                        <Link href={`/mrd-system/branch/deals/${deal.dealId}/result`}>
+                        <Link href={`/branch/deals/${deal.dealId}/result`}>
                           <Button size="sm" variant="outline">結果確認</Button>
                         </Link>
                       ) : deal.status === "OCR_PENDING" ? (
-                        <Link href={`/mrd-system/branch/deals/${deal.dealId}/ocr`}>
+                        <Link href={`/branch/deals/${deal.dealId}/ocr`}>
                           <Button size="sm" variant="outline">OCR確認</Button>
                         </Link>
                       ) : (
-                        <Link href={`/mrd-system/branch/deals/${deal.dealId}/result`}>
+                        <Link href={`/branch/deals/${deal.dealId}/result`}>
                           <Button size="sm" variant="ghost">詳細</Button>
                         </Link>
                       )}

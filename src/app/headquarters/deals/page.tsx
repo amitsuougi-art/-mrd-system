@@ -62,7 +62,7 @@ export default function HqDealsPage() {
                     </td>
                     <td className="px-4 py-3 text-gray-500 text-xs">{formatDateTime(deal.updatedAt)}</td>
                     <td className="px-4 py-3">
-                      <Link href={`/mrd-system/headquarters/deals/${deal.dealId}/review`}>
+                      <Link href={`/headquarters/deals/${deal.dealId}/review`}>
                         <Button size="sm" variant="outline">詳細・承認</Button>
                       </Link>
                     </td>

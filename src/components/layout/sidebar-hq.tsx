@@ -6,8 +6,8 @@ import { Home, List, Calendar, BarChart3, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
-  { href: "/mrd-system/headquarters/dashboard", label: "本部ダッシュボード", icon: Home },
-  { href: "/mrd-system/headquarters/deals", label: "案件一覧（全店）", icon: List },
+  { href: "/headquarters/dashboard", label: "本部ダッシュボード", icon: Home },
+  { href: "/headquarters/deals", label: "案件一覧（全店）", icon: List },
   { href: "#", label: "朝業務メニュー", icon: Calendar, disabled: true },
   { href: "#", label: "日次一覧", icon: BarChart3, disabled: true },
   { href: "#", label: "マスタ管理", icon: Settings, disabled: true },
@@ -22,7 +22,7 @@ export function SidebarHq() {
       </div>
       <nav className="flex-1 py-2">
         {menuItems.map(({ href, label, icon: Icon, disabled }) => {
-          const isActive = !disabled && (pathname === href || (href !== "/mrd-system/headquarters/dashboard" && pathname.startsWith(href)));
+          const isActive = !disabled && (pathname === href || (href !== "/headquarters/dashboard" && pathname.startsWith(href)));
           return (
             <Link
               key={href + label}

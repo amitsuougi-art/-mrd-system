@@ -10,7 +10,7 @@ interface PageProps {
 export default function DealDetailPage({ params }: PageProps) {
   const router = useRouter();
   useEffect(() => {
-    router.push(`/mrd-system/branch/deals/${params.dealId}/result`);
+    router.push(`/branch/deals/${params.dealId}/result`);
   }, [params.dealId, router]);
   return (
     <div className="flex items-center justify-center h-64">

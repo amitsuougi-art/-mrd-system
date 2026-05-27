@@ -114,7 +114,7 @@ export default function HqDashboardPage() {
                     <td className="px-4 py-3"><StatusBadge status={deal.status} /></td>
                     <td className="px-4 py-3 text-sm">{deal.input.prepayment.answerRequiredDate} {deal.input.prepayment.answerDeadline}</td>
                     <td className="px-4 py-3">
-                      <Link href={`/mrd-system/headquarters/deals/${deal.dealId}/review`}>
+                      <Link href={`/headquarters/deals/${deal.dealId}/review`}>
                         <Button size="sm">承認・再鑑</Button>
                       </Link>
                     </td>
@@ -136,7 +136,7 @@ export default function HqDashboardPage() {
                     <td className="px-4 py-3"><StatusBadge status={deal.status} /></td>
                     <td className="px-4 py-3 text-sm">{deal.input.prepayment.answerRequiredDate} {deal.input.prepayment.answerDeadline}</td>
                     <td className="px-4 py-3">
-                      <Link href={`/mrd-system/headquarters/deals/${deal.dealId}/review`}>
+                      <Link href={`/headquarters/deals/${deal.dealId}/review`}>
                         <Button size="sm">承認・再鑑</Button>
                       </Link>
                     </td>

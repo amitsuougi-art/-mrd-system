@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, PlusCircle, List, Bell } from "lucide-react";
+import { Home, PlusCircle, List } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
-  { href: "/mrd-system/branch/dashboard", label: "ダッシュボード", icon: Home },
-  { href: "/mrd-system/branch/deals/new", label: "新規案件登録", icon: PlusCircle },
-  { href: "/mrd-system/branch/deals", label: "案件一覧", icon: List },
+  { href: "/branch/dashboard", label: "ダッシュボード", icon: Home },
+  { href: "/branch/deals/new", label: "新規案件登録", icon: PlusCircle },
+  { href: "/branch/deals", label: "案件一覧", icon: List },
 ];
 
 export function SidebarBranch() {
@@ -20,7 +20,7 @@ export function SidebarBranch() {
       </div>
       <nav className="flex-1 py-2">
         {menuItems.map(({ href, label, icon: Icon }) => {
-          const isActive = pathname === href || (href !== "/mrd-system/branch/dashboard" && pathname.startsWith(href));
+          const isActive = pathname === href || (href !== "/branch/dashboard" && pathname.startsWith(href));
           return (
             <Link
               key={href}

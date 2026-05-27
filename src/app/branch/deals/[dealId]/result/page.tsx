@@ -33,7 +33,7 @@ export default function ResultPage({ params }: PageProps) {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <p className="text-gray-500 mb-4">案件が見つかりません</p>
-          <Link href="/mrd-system/branch/dashboard">
+          <Link href="/branch/dashboard">
             <Button variant="outline">ダッシュボードへ戻る</Button>
           </Link>
         </div>
@@ -69,7 +69,7 @@ export default function ResultPage({ params }: PageProps) {
     }));
     setIsSubmitting(false);
     alert("本部へ送信しました");
-    router.push("/mrd-system/branch/dashboard");
+    router.push("/branch/dashboard");
   };
 
   const aiStatusIcon = (status: "OK" | "WARN" | "NG") => {
@@ -88,7 +88,7 @@ export default function ResultPage({ params }: PageProps) {
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href="/mrd-system/branch/dashboard">
+        <Link href="/branch/dashboard">
           <Button variant="ghost" size="sm"><ArrowLeft className="h-4 w-4 mr-1" />戻る</Button>
         </Link>
         <div>
@@ -259,7 +259,7 @@ export default function ResultPage({ params }: PageProps) {
 
       {/* Action Buttons */}
       <div className="flex flex-wrap justify-end gap-3 pb-8">
-        <Link href={`/mrd-system/branch/deals/new`}>
+        <Link href={`/branch/deals/new`}>
           <Button variant="outline">修正する</Button>
         </Link>
         <Button variant="outline" onClick={handleRecalculate} disabled={isRecalculating}>
@@ -274,7 +274,7 @@ export default function ResultPage({ params }: PageProps) {
           </Button>
         )}
         {deal.status === "APPROVED" && (
-          <Link href={`/mrd-system/branch/deals/${deal.dealId}/confirm`}>
+          <Link href={`/branch/deals/${deal.dealId}/confirm`}>
             <Button className="bg-emerald-600 hover:bg-emerald-700">確定操作へ</Button>
           </Link>
         )}

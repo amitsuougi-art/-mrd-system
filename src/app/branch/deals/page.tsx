@@ -28,7 +28,7 @@ export default function BranchDealsPage() {
           <h1 className="text-2xl font-bold text-gray-900">案件一覧</h1>
           <p className="text-sm text-gray-500 mt-1">自店の案件一覧</p>
         </div>
-        <Link href="/mrd-system/branch/deals/new">
+        <Link href="/branch/deals/new">
           <Button>
             <PlusCircle className="h-4 w-4 mr-2" />
             新規案件登録
@@ -78,11 +78,11 @@ export default function BranchDealsPage() {
                     <td className="px-4 py-3 text-right font-mono">
                       {deal.result
                         ? new Intl.NumberFormat("ja-JP", { style: "currency", currency: "JPY" }).format(deal.result.prepaymentFee)
-                        : "—"}
+                        : "―"}
                     </td>
                     <td className="px-4 py-3 text-gray-500 text-xs">{formatDateTime(deal.createdAt)}</td>
                     <td className="px-4 py-3">
-                      <Link href={`/mrd-system/branch/deals/${deal.dealId}/result`}>
+                      <Link href={`/branch/deals/${deal.dealId}/result`}>
                         <Button size="sm" variant="outline">詳細</Button>
                       </Link>
                     </td>

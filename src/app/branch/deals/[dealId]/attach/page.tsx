@@ -61,13 +61,13 @@ export default function AttachPage({ params }: PageProps) {
     await new Promise((r) => setTimeout(r, 1000));
     updateDeal(deal.dealId, (d) => ({ ...d, status: "OCR_PENDING", updatedAt: new Date().toISOString() }));
     setIsProcessing(false);
-    router.push(`/mrd-system/branch/deals/${deal.dealId}/ocr`);
+    router.push(`/branch/deals/${deal.dealId}/ocr`);
   };
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex items-center gap-4">
-        <Link href={`/mrd-system/branch/deals/new`}>
+        <Link href={`/branch/deals/new`}>
           <Button variant="ghost" size="sm"><ArrowLeft className="h-4 w-4 mr-1" />戻る</Button>
         </Link>
         <div>
@@ -134,7 +134,7 @@ export default function AttachPage({ params }: PageProps) {
       </Card>
 
       <div className="flex justify-end gap-3 pb-8">
-        <Link href={`/mrd-system/branch/deals/new`}>
+        <Link href={`/branch/deals/new`}>
           <Button variant="outline">キャンセル</Button>
         </Link>
         <Button onClick={handleOcr} disabled={isProcessing || files.length === 0}>

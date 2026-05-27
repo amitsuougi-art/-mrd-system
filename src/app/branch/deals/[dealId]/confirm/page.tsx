@@ -58,13 +58,13 @@ export default function ConfirmPage({ params }: PageProps) {
     }));
     setIsSubmitting(false);
     alert("案件を確定しました");
-    router.push("/mrd-system/branch/dashboard");
+    router.push("/branch/dashboard");
   };
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex items-center gap-4">
-        <Link href={`/mrd-system/branch/deals/${deal.dealId}/result`}>
+        <Link href={`/branch/deals/${deal.dealId}/result`}>
           <Button variant="ghost" size="sm"><ArrowLeft className="h-4 w-4 mr-1" />戻る</Button>
         </Link>
         <div>
@@ -142,7 +142,7 @@ export default function ConfirmPage({ params }: PageProps) {
 
       {/* Action Buttons */}
       <div className="flex justify-end gap-3 pb-8">
-        <Link href={`/mrd-system/branch/deals/${deal.dealId}/result`}>
+        <Link href={`/branch/deals/${deal.dealId}/result`}>
           <Button variant="outline">キャンセル</Button>
         </Link>
         <Button

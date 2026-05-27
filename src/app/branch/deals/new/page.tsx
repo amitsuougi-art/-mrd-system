@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store";
-import { MOCK_USERS } from "@/lib/mock-data";
 import { calculatePrepaymentFee } from "@/lib/calculation";
 import { DealInput, Deal } from "@/types/deal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -88,7 +87,6 @@ export default function NewDealPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Auto-calculate spread
   useEffect(() => {
     const spread = form.rateInfo.customerRate - form.rateInfo.internalRate;
     setForm((prev) => ({
@@ -169,19 +167,17 @@ export default function NewDealPage() {
       confirmedAt: null, confirmedBy: null,
     };
     addDeal(deal);
-    // Simulate calculation delay
     await new Promise((r) => setTimeout(r, 1500));
     const result = calculatePrepaymentFee(form);
     updateDeal(dealId, (d) => ({ ...d, status: "CALCULATED", result, updatedAt: new Date().toISOString() }));
     setIsCalculating(false);
-    router.push(`/mrd-system/branch/deals/${dealId}/result`);
+    router.push(`/branch/deals/${dealId}/result`);
   };
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href="/mrd-system/branch/dashboard">
+        <Link href="/branch/dashboard">
           <Button variant="ghost" size="sm">
             <ArrowLeft className="h-4 w-4 mr-1" />戻る
           </Button>
@@ -192,7 +188,7 @@ export default function NewDealPage() {
         </div>
       </div>
 
-      {/* Section 1: Customer Info */}
+      {/* セクション1：取引先情報 */}
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
@@ -203,12 +199,7 @@ export default function NewDealPage() {
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
             <Label htmlFor="customerName">取引先名 <span className="text-red-500">*</span></Label>
-            <Input
-              id="customerName"
-              value={form.customerInfo.customerName}
-              onChange={(e) => update("customerInfo", "customerName", e.target.value)}
-              className={errors.customerName ? "border-red-500" : ""}
-            />
+            <Input id="customerName" value={form.customerInfo.customerName} onChange={(e) => update("customerInfo", "customerName", e.target.value)} className={errors.customerName ? "border-red-500" : ""} />
             {errors.customerName && <p className="text-xs text-red-500 mt-1">{errors.customerName}</p>}
           </div>
           <div>
@@ -230,7 +221,7 @@ export default function NewDealPage() {
         </CardContent>
       </Card>
 
-      {/* Section 2: Original Contract */}
+      {/* セクション2：原契約条件 */}
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
@@ -257,13 +248,7 @@ export default function NewDealPage() {
           </div>
           <div>
             <Label htmlFor="executionAmount">実行金額（円） <span className="text-red-500">*</span></Label>
-            <Input
-              type="number"
-              id="executionAmount"
-              value={form.originalContract.executionAmount}
-              onChange={(e) => update("originalContract", "executionAmount", Number(e.target.value))}
-              className={errors.executionAmount ? "border-red-500" : ""}
-            />
+            <Input type="number" id="executionAmount" value={form.originalContract.executionAmount} onChange={(e) => update("originalContract", "executionAmount", Number(e.target.value))} className={errors.executionAmount ? "border-red-500" : ""} />
           </div>
           <div>
             <Label htmlFor="contractRate">約定金利（%） <span className="text-red-500">*</span></Label>
@@ -296,7 +281,7 @@ export default function NewDealPage() {
         </CardContent>
       </Card>
 
-      {/* Section 3: Schedule */}
+      {/* セクション3：スケジュール条件 */}
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
@@ -310,13 +295,7 @@ export default function NewDealPage() {
             <div className="flex gap-4 mt-2">
               {[{ value: "POST", label: "後取" }, { value: "PRE", label: "前取" }].map(({ value, label }) => (
                 <label key={value} className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    value={value}
-                    checked={form.schedule.interestReceiveType === value}
-                    onChange={() => update("schedule", "interestReceiveType", value)}
-                    className="h-4 w-4 text-bank-primary"
-                  />
+                  <input type="radio" value={value} checked={form.schedule.interestReceiveType === value} onChange={() => update("schedule", "interestReceiveType", value)} className="h-4 w-4 text-bank-primary" />
                   <span className="text-sm">{label}</span>
                 </label>
               ))}
@@ -347,7 +326,7 @@ export default function NewDealPage() {
         </CardContent>
       </Card>
 
-      {/* Section 4: Rate Info */}
+      {/* セクション4：仕切レート情報 */}
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
@@ -367,19 +346,13 @@ export default function NewDealPage() {
           </div>
           <div>
             <Label htmlFor="spread">乖離幅（%）</Label>
-            <Input
-              type="number"
-              id="spread"
-              value={form.rateInfo.spread.toFixed(5)}
-              readOnly
-              className="bg-gray-50 text-gray-600"
-            />
+            <Input type="number" id="spread" value={form.rateInfo.spread.toFixed(5)} readOnly className="bg-gray-50 text-gray-600" />
             <p className="text-xs text-gray-500 mt-1">対顧金利 - 仕切レート（自動計算）</p>
           </div>
         </CardContent>
       </Card>
 
-      {/* Section 5: Prepayment Info */}
+      {/* セクション5：繰上返済条件 */}
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
@@ -437,13 +410,7 @@ export default function NewDealPage() {
           {form.prepayment.executionMethod === "PARTIAL" && (
             <div>
               <Label htmlFor="partialAmount">一部繰上返済金額（円） <span className="text-red-500">*</span></Label>
-              <Input
-                type="number"
-                id="partialAmount"
-                value={form.prepayment.partialAmount || ""}
-                onChange={(e) => update("prepayment", "partialAmount", Number(e.target.value))}
-                className={errors.partialAmount ? "border-red-500" : ""}
-              />
+              <Input type="number" id="partialAmount" value={form.prepayment.partialAmount || ""} onChange={(e) => update("prepayment", "partialAmount", Number(e.target.value))} className={errors.partialAmount ? "border-red-500" : ""} />
               {errors.partialAmount && <p className="text-xs text-red-500 mt-1">{errors.partialAmount}</p>}
             </div>
           )}
@@ -476,12 +443,7 @@ export default function NewDealPage() {
           {form.prepayment.hasFeeReduction && (
             <div>
               <Label htmlFor="approvalNo">稟議番号 <span className="text-red-500">*</span></Label>
-              <Input
-                id="approvalNo"
-                value={form.prepayment.approvalNo || ""}
-                onChange={(e) => update("prepayment", "approvalNo", e.target.value)}
-                className={errors.approvalNo ? "border-red-500" : ""}
-              />
+              <Input id="approvalNo" value={form.prepayment.approvalNo || ""} onChange={(e) => update("prepayment", "approvalNo", e.target.value)} className={errors.approvalNo ? "border-red-500" : ""} />
               {errors.approvalNo && <p className="text-xs text-red-500 mt-1">{errors.approvalNo}</p>}
             </div>
           )}
@@ -492,7 +454,7 @@ export default function NewDealPage() {
         </CardContent>
       </Card>
 
-      {/* Section 6: Remarks */}
+      {/* セクション6：備考 */}
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
@@ -501,20 +463,14 @@ export default function NewDealPage() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Textarea
-            value={form.remarks}
-            onChange={(e) => setForm((prev) => ({ ...prev, remarks: e.target.value }))}
-            placeholder="補足事項があれば記入してください（500文字以内）"
-            maxLength={500}
-            rows={4}
-          />
+          <Textarea value={form.remarks} onChange={(e) => setForm((prev) => ({ ...prev, remarks: e.target.value }))} placeholder="補足事項があれば記入してください（500文字以内）" maxLength={500} rows={4} />
           <p className="text-xs text-gray-400 mt-1 text-right">{form.remarks.length}/500</p>
         </CardContent>
       </Card>
 
-      {/* Action Buttons */}
+      {/* アクションボタン */}
       <div className="flex justify-end gap-3 pb-8">
-        <Link href="/mrd-system/branch/dashboard">
+        <Link href="/branch/dashboard">
           <Button variant="outline">キャンセル</Button>
         </Link>
         <Button variant="secondary" onClick={handleSave} disabled={isSaving}>
@@ -523,15 +479,9 @@ export default function NewDealPage() {
         </Button>
         <Button onClick={handleCalculate} disabled={isCalculating} className="min-w-32">
           {isCalculating ? (
-            <>
-              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              計算中...
-            </>
+            <><Loader2 className="h-4 w-4 mr-2 animate-spin" />計算中...</>
           ) : (
-            <>
-              <Play className="h-4 w-4 mr-2" />
-              試算実行
-            </>
+            <><Play className="h-4 w-4 mr-2" />試算実行</>
           )}
         </Button>
       </div>

@@ -12,19 +12,18 @@ export default function LoginPage() {
   const loginAsBranch = () => {
     const branchUser = MOCK_USERS.find((u) => u.role === "BRANCH_STAFF");
     setCurrentUser(branchUser || MOCK_USERS[0]);
-    router.push("/mrd-system/branch/dashboard");
+    router.push("/branch/dashboard");
   };
 
   const loginAsHq = () => {
     const hqUser = MOCK_USERS.find((u) => u.role === "HQ_APPROVER");
     setCurrentUser(hqUser || MOCK_USERS[2]);
-    router.push("/mrd-system/headquarters/dashboard");
+    router.push("/headquarters/dashboard");
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-bank-primary to-bank-primary-light flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Logo / Title */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-white/20 mb-4">
             <Building2 className="h-8 w-8 text-white" />
@@ -34,12 +33,9 @@ export default function LoginPage() {
           <span className="inline-block mt-2 bg-amber-500 text-white text-xs px-2 py-0.5 rounded">デモ版 v1.0</span>
         </div>
 
-        {/* Login Card */}
         <div className="bg-white rounded-xl shadow-2xl p-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-6 text-center">システムへのログイン</h2>
-
           <div className="space-y-4">
-            {/* Branch Login */}
             <button
               onClick={loginAsBranch}
               className="w-full flex items-center justify-between px-5 py-4 bg-bank-primary text-white rounded-lg hover:bg-bank-primary-light transition-colors group"
@@ -50,8 +46,6 @@ export default function LoginPage() {
               </div>
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </button>
-
-            {/* HQ Login */}
             <button
               onClick={loginAsHq}
               className="w-full flex items-center justify-between px-5 py-4 bg-white border-2 border-bank-primary text-bank-primary rounded-lg hover:bg-blue-50 transition-colors group"
@@ -63,8 +57,6 @@ export default function LoginPage() {
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
-
-          {/* Info box */}
           <div className="mt-6 p-3 bg-amber-50 border border-amber-200 rounded-lg flex gap-2">
             <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 shrink-0" />
             <p className="text-xs text-amber-700">
@@ -72,7 +64,6 @@ export default function LoginPage() {
             </p>
           </div>
         </div>
-
         <p className="text-center text-blue-200 text-xs mt-6">
           © 2026 MILIZE株式会社 | 本番システムでは金融計算エンジンを使用
         </p>

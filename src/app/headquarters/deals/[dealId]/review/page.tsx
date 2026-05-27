@@ -48,7 +48,7 @@ export default function ReviewPage({ params }: PageProps) {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <p className="text-gray-500 mb-4">案件が見つかりません</p>
-          <Link href="/mrd-system/headquarters/dashboard">
+          <Link href="/headquarters/dashboard">
             <Button variant="outline">ダッシュボードへ戻る</Button>
           </Link>
         </div>
@@ -89,7 +89,7 @@ export default function ReviewPage({ params }: PageProps) {
     }));
     setIsApproving(false);
     alert("承認し、営業店へ自動通知しました");
-    router.push("/mrd-system/headquarters/dashboard");
+    router.push("/headquarters/dashboard");
   };
 
   const handleReject = async () => {
@@ -114,14 +114,14 @@ export default function ReviewPage({ params }: PageProps) {
     setIsRejecting(false);
     setShowRejectDialog(false);
     alert("差し戻しました");
-    router.push("/mrd-system/headquarters/dashboard");
+    router.push("/headquarters/dashboard");
   };
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href="/mrd-system/headquarters/dashboard">
+        <Link href="/headquarters/dashboard">
           <Button variant="ghost" size="sm"><ArrowLeft className="h-4 w-4 mr-1" />戻る</Button>
         </Link>
         <div>
