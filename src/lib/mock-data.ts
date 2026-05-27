@@ -28,9 +28,9 @@ const sampleInput: DealInput = {
     contractDate: "2024-06-05",
   },
   rateInfo: {
-    internalRate: 0.5,
+    internalRate: 0.55,
     customerRate: 1.52091,
-    spread: 1.02091,
+    spread: 0.97091,
   },
   prepayment: {
     responsiblePerson: "山田 太郎",
