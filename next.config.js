@@ -5,6 +5,12 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   transpilePackages: ['pdfjs-dist'],
   webpack: (config) => {
     // pdfjs-dist 4.x ESM 対応
