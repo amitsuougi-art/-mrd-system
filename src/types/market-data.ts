@@ -5,7 +5,7 @@ export interface YieldCurvePoint {
 }
 
 export interface YieldCurve {
-  curveType: "OIS" | "TIBOR_SWAP" | "INTERNAL_OIS" | "L_SHIKIRI" | "S_SHIKIRI";
+  curveType: "OIS" | "TIBOR_SWAP" | "INTERNAL_OIS" | "L_SHIKIRI" | "S_SHIKIRI" | "TONA_OIS";
   side: "OFFER" | "BID" | "MID";
   baseDate: string;
   acquiredAt: string;

@@ -6,6 +6,7 @@ import { YieldCurve } from "@/types/market-data";
  * → 再運用レート < 約定金利 となり、期限前弁済手数料が発生するシナリオ
  */
 
+// ─── L仕切カーブ（内部計算用・画面非表示）─────────────────────
 export const MOCK_L_SHIKIRI_CURVE: YieldCurve = {
   curveType: "L_SHIKIRI",
   side: "BID",
@@ -31,6 +32,7 @@ export const MOCK_L_SHIKIRI_CURVE: YieldCurve = {
   ],
 };
 
+// ─── イールドカーブ（円金利スワップ / TIBOR系）────────────────
 export const MOCK_TIBOR_SWAP_CURVE: YieldCurve = {
   curveType: "TIBOR_SWAP",
   side: "BID",
@@ -46,5 +48,26 @@ export const MOCK_TIBOR_SWAP_CURVE: YieldCurve = {
     { tenor: "5Y",  tenorYears: 5.0,    rate: 0.75 },
     { tenor: "7Y",  tenorYears: 7.0,    rate: 0.92 },
     { tenor: "10Y", tenorYears: 10.0,   rate: 1.10 },
+  ],
+};
+
+// ─── TONA-OIS カーブ（無担保コール翌日物 / リスクフリーレート）─
+export const MOCK_TONA_CURVE: YieldCurve = {
+  curveType: "TONA_OIS",
+  side: "MID",
+  baseDate: "2026-05-28",
+  acquiredAt: new Date().toISOString(),
+  points: [
+    { tenor: "ON",  tenorYears: 0.0027, rate: 0.08 },
+    { tenor: "1W",  tenorYears: 0.019,  rate: 0.08 },
+    { tenor: "1M",  tenorYears: 0.0833, rate: 0.09 },
+    { tenor: "3M",  tenorYears: 0.25,   rate: 0.10 },
+    { tenor: "6M",  tenorYears: 0.5,    rate: 0.12 },
+    { tenor: "1Y",  tenorYears: 1.0,    rate: 0.15 },
+    { tenor: "2Y",  tenorYears: 2.0,    rate: 0.22 },
+    { tenor: "3Y",  tenorYears: 3.0,    rate: 0.32 },
+    { tenor: "5Y",  tenorYears: 5.0,    rate: 0.48 },
+    { tenor: "7Y",  tenorYears: 7.0,    rate: 0.62 },
+    { tenor: "10Y", tenorYears: 10.0,   rate: 0.78 },
   ],
 };
